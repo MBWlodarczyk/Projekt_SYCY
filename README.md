@@ -1,2 +1,7 @@
 # Projekt_SYCY
-To jest repozytorium stworzone do walki z Projektem z SYCY :D
+
+W tym repozytorium będzie pojawiać się kod związany z projektem SYCY.
+
+### Realizacja w python/java
+
+### Realizacja w Verilog HDL
