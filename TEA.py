@@ -1,6 +1,8 @@
 from ctypes import *
 
-#enkrypcja
+import multiprocessing as mp
+
+# enkrypcja
 def encipher(v, k):
     y = c_uint32(v[0])
     z = c_uint32(v[1])
@@ -19,7 +21,8 @@ def encipher(v, k):
     w[1] = z.value
     return w
 
-#dekrypcja
+
+# dekrypcja
 def decipher(v, k):
     y = c_uint32(v[0])
     z = c_uint32(v[1])
@@ -37,8 +40,10 @@ def decipher(v, k):
     w[0] = y.value
     w[1] = z.value
     return w
-#lamanie cezara
-def ceasar(message,letters):
+
+
+# lamanie cezara
+def ceasar(message, letters):
     for key in range(len(LETTERS)):
         translated = ''
         for symbol in message:
@@ -63,26 +68,54 @@ def convert(s):
 
         # return string
     return new
-#funkcja głowna
+
+
+# funkcja głowna
 if __name__ == '__main__':
 
     message = 'GIEWIVrGMTLIVrHIQS'  # encrypted message
     LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-    ceasar(message,LETTERS)
+    ceasar(message, LETTERS)
 
-    key = [0xbe168aa1, 0x16c498a3, 0x5e87b018, 0x56de7805]
-    #tekst do zakodowania
-    secret=list("tekst mega tajny nie znajdowalny")
-    cypher=[]
-    if len(secret)%2==1:
-        secret.append(" ")
-    for i in range(int(len(secret)/2)):
-        cypher.append(encipher([ord(secret[2*i]),ord(secret[2*i+1])],key)[0])
-        cypher.append(encipher([ord(secret[2*i]),ord(secret[2*i+1])],key)[1])
+    # tekst do zakodowania
+    secret = list("%PDFtekst mega tajny nie znajdowalny")
+    cypher = []
+    a = 0
+    b = 0
+    key = [0x68756c6b, 0x69737468, 0x00000000, 0x00121212]
+    for i in range(int(len(secret) / 2)):
+        cypher.append(encipher([ord(secret[2 * i]), ord(secret[2 * i + 1])], key)[0])
+        cypher.append(encipher([ord(secret[2 * i]), ord(secret[2 * i + 1])], key)[1])
     print(cypher)
-    decode=[]
-    for i in range(int(len(secret)/2)):
-        decode.append(chr(decipher([(cypher[2*i]),cypher[2*i+1]],key)[0]))
-        decode.append(chr(decipher([(cypher[2*i]),cypher[2*i+1]],key)[1]))
-    print(convert(decode))
+    flag=False
+    for x in range(pow(2,32)-1):
+        if flag:
+            break
+        for y in range(pow(2,32)-1):
+            if flag:
+                break
+            key = [0x68756c6b, 0x69737468, x, y]
+            print("Checking...")
+            print(key)
+            if len(secret) % 2 == 1:
+                secret.append(" ")
+            decode = []
+
+            decode.append(chr(decipher([(cypher[0]), cypher[1]], key)[0] % 110000))
+            decode.append(chr(decipher([(cypher[0]), cypher[1]], key)[1] % 110000))
+            decode.append(chr(decipher([(cypher[2]), cypher[3]], key)[0] % 110000))
+            decode.append(chr(decipher([(cypher[2]), cypher[3]], key)[1] % 110000))
+
+            if convert(decode).startswith("%PDF"):
+                print("Found")
+                print("Its pdf")
+                print("Text:")
+                for i in range(int(len(secret) / 2)):
+                    decode.append(chr(decipher([(cypher[2 * i]), cypher[2 * i + 1]], key)[0] % 110000))
+                    decode.append(chr(decipher([(cypher[2 * i]), cypher[2 * i + 1]], key)[1] % 110000))
+                print(convert(decode))
+                print("Key:")
+                print(key)
+                flag=True
+
