@@ -69,11 +69,10 @@ def convert(s):
         # return string
     return new
 
-
 # funkcja głowna
 if __name__ == '__main__':
 
-    message = 'GIEWIVrGMTLIVrHIQS'  # encrypted message
+    message = 'GIEWIVrGMTLIVrHIQS'
     LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
     ceasar(message, LETTERS)
@@ -83,7 +82,7 @@ if __name__ == '__main__':
     cypher = []
     a = 0
     b = 0
-    key = [0x68756c6b, 0x69737468, 0x00000000, 0x00121212]
+    key = [0x68756c6b, 0x69737468, 0x00000000, 0x00001212]
     for i in range(int(len(secret) / 2)):
         cypher.append(encipher([ord(secret[2 * i]), ord(secret[2 * i + 1])], key)[0])
         cypher.append(encipher([ord(secret[2 * i]), ord(secret[2 * i + 1])], key)[1])
@@ -106,8 +105,8 @@ if __name__ == '__main__':
             decode.append(chr(decipher([(cypher[0]), cypher[1]], key)[1] % 110000))
             decode.append(chr(decipher([(cypher[2]), cypher[3]], key)[0] % 110000))
             decode.append(chr(decipher([(cypher[2]), cypher[3]], key)[1] % 110000))
-
             if convert(decode).startswith("%PDF"):
+                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 print("Found")
                 print("Its pdf")
                 print("Text:")
