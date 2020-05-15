@@ -1,0 +1,15 @@
+key: ¾¡Ä£^°VÞx
+key hex: be168aa1 16c498a3 5e87b018 56de7805
+key bits: 
+key dec: 252670361465327591276678215264683063301
+
+message: 
+msg bits: 
+msg hex: 5294C91A 2623BD93
+msg dec: 5950602121809477011
+
+
+encrypted: 
+enc bits: 
+enc hex: E70576 7C1DBE5D
+enc dec: 65026726066765405
