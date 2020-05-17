@@ -6,11 +6,11 @@ module file_reader
 
 (
 input clk,
-output [1:0] read
+	output [7:0] read
 );
 
-reg [1:0] mem[N-1:0];
-reg [1:0] x;
+	reg [7:0] mem[N-1:0];
+	reg [7:0] x;
 		integer i=0;
 
 
@@ -21,7 +21,7 @@ begin
 	$readmemh("test.txt", mem);
 	
 	
-	$display("%h", mem);
+	$display("%b", mem);
 	
 end
 
