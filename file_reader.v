@@ -1,6 +1,6 @@
 module file_reader 
 #(
-//Ile wczytamy z pliku, 8 bo " %PDF-1."  to 8 par hexow
+//Ile wczytamy z pliku, 7 bo " %PDF-1."  to 7 par hexow
 	parameter N = 7
 )
 
