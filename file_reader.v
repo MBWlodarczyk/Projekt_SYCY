@@ -1,16 +1,16 @@
 module file_reader 
 #(
-//Ile wczytamy z pliku, 8 bo %pdf%pdf to 8 par hexow
-	parameter N = 8
+//Ile wczytamy z pliku, 8 bo " %PDF-1."  to 8 par hexow
+	parameter N = 7
 )
 
 (
 input clk,
-	output [7:0] read
+	output [N-1:0] read
 );
 
-	reg [7:0] mem[N-1:0];
-	reg [7:0] x;
+	reg [N-1:0] mem[N-1:0];
+	reg [N-1:0] x;
 		integer i=0;
 
 
