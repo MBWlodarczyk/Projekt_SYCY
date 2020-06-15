@@ -19,17 +19,11 @@ module dekoder64
 								 init   = 4'd1, //dividing key to 4seg and data to 2seg
 								 divide 	 = 4'd2,
 								 state_r2 = 4'd3,
-								 state_r3 = 4'd4,
-								 state_r4 = 4'd5,
-								 state_r5 = 4'd6,
-								 state_l1 = 4'd7,
-								 state_l2 = 4'd8,
-								 state_l3 = 4'd9,
-								 state_l4 = 4'd10,
-							    state_l5 = 4'd11,
-								 state_r1 = 4'd12,
-								 swap		 = 4'd13,
-								 store 	 = 4'd14;
+								 state_l1 = 4'd4,
+								 state_l2 = 4'd5,
+								 state_r1 = 4'd6,
+								 swap		 = 4'd7,
+								 store 	 = 4'd8;
 								 
 								 
 	reg [SIZE-1:0] state_reg, state_next;
@@ -93,15 +87,9 @@ module dekoder64
 					   else		  state_next = idle;
 			init 	 : state_next = divide;
 			divide :	state_next = state_l2;
-			state_r2 : state_next = state_r3;
-			state_r3 : state_next = state_r4;
-			state_r4 : state_next = state_r5;
-			state_r5 : state_next = state_l1;
+			state_r2 : state_next = state_l1;
 			state_l1 : state_next = swap;
-			state_l2 : state_next = state_l3;
-			state_l3 : state_next = state_l4;
-			state_l4 : state_next = state_l5;
-			state_l5 : state_next = state_r1;
+			state_l2 : state_next = state_r1;
 			state_r1 : state_next = state_r2;
 			swap : begin
 					 if(iteration % cycles == 0)
@@ -141,16 +129,28 @@ module dekoder64
 								key1 		= key_reg[95:64];
 								key0 		= key_reg[127:96];
 							end
-			state_r2	:  temp0_next = ((R_reg << 4) + key0);
-			state_r3	:	temp1_next =  R_reg + sum_par;
-			state_r4	:  temp2_next = ((R_reg >> 5) + key1);
-			state_r5	:  temp3_next = (temp0 ^ temp1 ^ temp2);
-			state_l1 : 	L_next = L_reg - temp3_next;
-			state_l2 : 	temp0_next = ((L_reg << 4) + key2);
-			state_l3 :	temp1_next =  L_reg + sum_par;
-			state_l4 :	temp2_next = ((L_reg >> 5) + key3);
-			state_l5 :	temp3_next = temp0 ^ temp1 ^ temp2;
-			state_r1 : 	R_next = R_reg - temp3_next;
+			state_r2	:  
+			begin
+			temp0_next = ((R_reg << 4) + key0);
+			temp1_next =  R_reg + sum_par;
+		        temp2_next = ((R_reg >> 5) + key1);
+		        end 
+			state_l1 : 
+			begin
+			temp3_next = (temp0 ^ temp1 ^ temp2);
+			L_next = L_reg - temp3_next;
+			end
+			state_l2 : 	
+			begin
+			temp0_next = ((L_reg << 4) + key2);
+			temp1_next =  L_reg + sum_par;
+			temp2_next = ((L_reg >> 5) + key3);
+			end
+			state_r1 :	
+			begin
+			temp3_next = temp0 ^ temp1 ^ temp2;
+			R_next = R_reg - temp3_next;
+			end
 			swap		: 	begin
 							iteration = iteration + 1;
 							sum = sum - delta;
