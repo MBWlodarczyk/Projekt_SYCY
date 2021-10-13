@@ -1,7 +1,8 @@
 # Projekt_SYCY
 
-W tym repozytorium będzie pojawiać się kod związany z projektem SYCY.
+Celem projektu jest zaprojektowanie układu FPGA realizującego łamanie brute-force algorytmu kryptograficznego TEA.
 
-### Realizacja w python
+Projekt został zrealizowany w 5 osobowej grupie.
 
-### Realizacja w Verilog HDL
+Projekt posiada dość duże usprawnienia szybkości wykonania za pomocą rozwijania pętli oraz zrównoleglenia kilku instacji bloku łamania.
+
